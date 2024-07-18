@@ -1,0 +1,12 @@
+{% extends '_base.html' %}
+
+{% block title %}
+    {{ category.name }}
+{% endblock %}
+
+{% block content %}
+    <article class="category-detail">
+        <h2><a href="">{{ category.name }}</a></h2>
+        <p>{{ category.description }}</p>
+    </article>
+{% endblock content %}
