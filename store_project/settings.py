@@ -40,7 +40,6 @@ SHARED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # Thirty
     'crispy_forms',
     'crispy_bootstrap5',
@@ -49,6 +48,20 @@ SHARED_APPS = [
 ]
 
 TENANT_APPS = [
+    # Django
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Thirty
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'allauth',
+    'allauth.account',
+    # Local
+    'users.apps.UsersConfig',
     'store.apps.StoreConfig',
 ]
 
@@ -159,6 +172,7 @@ TENANT_MODEL = 'client.Client'
 TENANT_DOMAIN_MODEL = 'client.Domain'
 
 PUBLIC_SCHEMA_URLCONF = 'client.urls'
+PUBLIC_SCHEMA_NAME = 'public'
 
 # django-crispy-forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'

@@ -9,5 +9,5 @@ class HomePageView(TemplateView):
     template_name = 'home.html'
 
 
-class SettingsPageView(LoginRequiredMixin, TemplateView):
-    template_name = 'settings.html'
+class DashboardPageView(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard.html'
