@@ -1,0 +1,8 @@
+{% load static %}
+<div class="scrollmenu bg-body-tertiary d-flex justify-content-lg-center-custom my-4 my-lg-2">
+    <a href="" class="text-capitalize fw-bold text-azul-medtgol m-1 p-2" style="font-size: 11px">Promociones</a>
+    <a href="{% url 'product_list' %}" class="text-capitalize fw-bold text-azul-medtgol m-1 p-2" style="font-size: 11px">Todos</a>
+    {% for category in categories %}
+        <a href="{% url 'product_list_by_category' category.slug %}" class="text-capitalize fw-bold text-azul-medtgol m-1 p-2" style="font-size: 11px">{{ category.name }}</a>
+    {% endfor %}
+</div>

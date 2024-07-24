@@ -2,16 +2,16 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Log Out
+    {{ request.tenant|upper }} | Cerrar Sesión
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Log Out</h1>
-        <p>Are you sure you want to log out?</p>
+    <section class="h-100 d-flex flex-column justify-content-center align-items-center">
+        <h1>Cerrar Sesión</h1>
+        <p>¿Está seguro de que desea cerrar sesión?</p>
         <form id="logout-form" method="post" action="{% url 'account_logout' %}">
             {% csrf_token %}
-            <button form="logout-form" class="btn btn-danger" type="submit">Log Out</button>
+            <button form="logout-form" class="btn btn-danger" type="submit">Cerrar Sesión</button>
         </form>
-    </div>
+    </section>
 {% endblock %}

@@ -1,0 +1,74 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid justify-content-start flex-wrap">
+        <div class="d-flex w-100 justify-content-between mt-3">
+            <a class="navbar-brand ms-2" href="/"> {{ request.tenant|upper }}
+                {#<img src="{% static 'img/logos/Logo-nombre.png' %}" alt="Logo medtgol" width="100px">#}
+            </a>
+            {% if not user.username %}
+                <div class="d-flex align-items-center justify-content-around">
+                    <a class="btn rounded-circle btn-info px-2 py-1 mx-1" href="{% url 'account_login' %}">
+                        <i class='bx bxs-user'></i>
+                    </a>
+                    <a class="btn btn-sm btn-dark ms-1" href="{% url 'account_signup' %}">
+                        <p class="small m-0">Registrarse</p>
+                    </a>
+                </div>
+            {% else %}
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-light mx-1 d-flex align-items-center">
+                        <i class='bx bxs-cart h3 m-0 ms-1'></i>
+                        <p class="small m-0 fw-bold ms-1">Carrito</p>
+                        <span class="badge text-bg-danger ms-1">{{ total_products_cart }}</span>
+                    </a>
+                    <div class="dropdown">
+                        <button class="btn btn-light mx-1 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bxs-user-circle h3 m-0'></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="">Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="d-flex flex-wrap justify-content-center justify-content-lg-end flex-lg-nowrap w-100">
+            <div class="d-flex w-100">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light py-0" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <i class='bx bx-menu h3 m-0'></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/">Inicio</a></li>
+                        <li><a class="dropdown-item" href="{% url 'product_list' %}">Productos</a></li>
+                        <li><a class="dropdown-item" href="#">Otra acción aquí...</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Enlace separado</a></li>
+                    </ul>
+                </div>
+
+                <section class="d-flex justify-content-center me-lg-4 pe-lg-5 me-md-4 pe-md-5 w-100">
+                    <form class="form-search me-lg-4 me-md-4" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Buscar..." name="search" required
+                                   aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-success" type="submit" id="button-addon2">
+                                <i class='bx bx-search'></i>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+
+        </div>
+    </div>
+</nav>

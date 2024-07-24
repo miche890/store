@@ -1,0 +1,17 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ request.tenant|upper}}
+{% endblock %}
+
+{% block head %}
+	<link href="{% static 'css/carrusel.css' %}" rel="stylesheet">
+	<link href="{% static 'css/categorias-destacadas.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    {% include 'ui/carrusel.html' %}
+    {% include 'ui/categorias_destacadas.html' %}
+    {% include 'ui/boton_whatsapp.html' %}
+{% endblock %}

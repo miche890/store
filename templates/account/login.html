@@ -2,15 +2,16 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Log In
+    {{ request.tenant|upper }} | Iniciar Sesión
 {% endblock %}
 
 {% block content %}
-    <h2>Log In</h2>
-    <form id="login-form" method="post">
-        {% csrf_token %}
-        {% crispy form %}
-{#        {% crispy form %}#}
-        <button form="login-form" class="btn btn-success" type="submit">Log In</button>
-    </form>
+    <section class="h-100 d-flex flex-column justify-content-center align-items-center">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form" method="post">
+            {% csrf_token %}
+            {% crispy form %}
+            <button form="login-form" class="btn btn-primary" type="submit">Iniciar Sesión</button>
+        </form>
+    </section>
 {% endblock %}

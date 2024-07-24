@@ -1,35 +1,55 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
-
+from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
 from .models import Category, Product, Stock
-from .forms import CategoryForm, ProductForm, StockForm
 
 
 # Create your views here.
-
-class CategoryListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    model = Category
-    context_object_name = 'category_list'
-    template_name = 'store/categories/category_list.html'
-    permission_required = 'store.view_category'
+def index(request):
+    return render(request, 'index.html')
 
 
-class CategoryDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    model = Category
-    context_object_name = 'category'
-    template_name = 'store/categories/category_detail.html'
-    permission_required = 'store.view_category'
+def product_list(request, category_slug=None):
+    # Category
+    category = None
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+
+    # Order
+    ordering = request.GET.get('order')
+    if ordering:
+        products = products.order_by(ordering)
+
+    # Search
+    search = request.GET.get('search')
+    if search:
+        products = products.filter(name__icontains=search)
+
+    # Paginar productos
+    paginator = Paginator(products, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request,
+        'store/products/list.html',
+        {
+            'category': category,
+            'categories': categories,
+            'products': products,
+            'page_obj': page_obj,
+        }
+    )
 
 
-class CategoryAddView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Category
-    form_class = CategoryForm
-    template_name = 'store/categories/category_add.html'
-    permission_required = 'store.add_category'
-
-
-class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = Category
-    form_class = CategoryForm
-    template_name = 'store/categories/category_update.html'
-    permission_required = 'store.change_category'
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    return render(
+        request,
+        'store/products/detail.html',
+        {
+            'product': product
+        }
+    )

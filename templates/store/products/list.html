@@ -1,0 +1,99 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+    {% if category %}
+        {{ request.tenant|upper }} | {{ category.name }}
+    {% else %}
+        {{ request.tenant|upper }} | Productos
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section class="container">
+        {% if page_obj|length > 1 %}
+            <section class="row row-cols-2 row-cols-md-5 g-2 d-flex justify-content-end">
+                <section class="mb-2 form-group-sm text-nowrap ">
+                    <article class="d-flex align-items-center">
+                        <label for="order_select" class="me-1 small">Ordenar por:</label>
+                        <select name="order" id="order_select" class="form-select form-select-sm">
+                            <option>---</option>
+                            <option value="name">Nombre</option>
+                            <option value="price">Precio mas bajo</option>
+                            <option value="-price">Precio mas alto</option>
+                            <option disabled>Mas vendido</option>
+                        </select>
+                    </article>
+                </section>
+            </section>
+        {% endif %}
+        <section class="row row-cols-2 row-cols-sm-2 row-cols-md-5 g-2" id="productos">
+            {% if page_obj|length < 1 %}
+                <div class="alert alert-danger w-100 text-center">
+                    <p class="h5">
+                        No hay productos para mostrar
+                    </p>
+                </div>
+            {% endif %}
+            {% for product in products %}
+                <article class="col">
+                    <div class="card shadow-sm h-100">
+                        <div class="d-flex justify-content-around h-100">
+                            <img src="{{ product.image.url }}" alt="imagen de {{ product.name }}"
+                                 class="bd-placeholder-img card-img-top img-fluid p-1" style="max-width: 50%">
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-end align-items-center px-1">
+                            <p class="card-text text-center small m-0">{{ product.name }}</p>
+                            <p class="card-text text-danger fw-bold small m-0">$ {{ product.price|intcomma }}</p>
+                            <div class="d-flex justify-content-around align-items-center flex-wrap mt-1">
+                                {#<small class="text-body-secondary w-100 text-end text-uppercase">{{ producto.category }}</small>#}
+                                <div class="btn-group-vertical">
+                                    <a href="" class="btn btn-sm btn-info">
+                                        Añadir al Carrito
+                                    </a>
+                                    <a href="{{ product.get_absolute_url }}"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Ver mas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+        {% if page_obj|length > 0 %}
+            <nav class="pagination mt-3 justify-content-center">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">&laquo; Primera</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item">
+                    <span class="page-link active">
+                        Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                    </span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </section>
+    {% include 'ui/boton_whatsapp.html' %}
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'js/lista_productos.js' %}"></script>
+{% endblock %}

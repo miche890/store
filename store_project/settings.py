@@ -10,16 +10,30 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os.path
+import environ
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+from django.core.management.utils import get_random_secret_key
+import dj_database_url
 from pathlib import Path
+import django.contrib.staticfiles
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f6d67+-25s+z=@dn01*3bx0r%b)4^be)fie-4q4@5f$)cjlu0x'
+# SECRET_KEY = 'django-insecure-f6d67+-25s+z=@dn01*3bx0r%b)4^be)fie-4q4@5f$)cjlu0x'
+SECRET_KEY = env.str('SECRET_KEY', default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,7 +43,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 SHARED_APPS = [
+    # Thirty
     'django_tenants',
+    'corsheaders',
+    'cloudinary',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'allauth',
+    'allauth.account',
+    'admin_interface',
+    'colorfield',
+    'whitenoise.runserver_nostatic',
+    'django_filters',
     # Local
     'client.apps.ClientConfig',
     'users.apps.UsersConfig',
@@ -40,14 +65,22 @@ SHARED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+
+]
+
+TENANT_APPS = [
     # Thirty
+    'corsheaders',
+    'cloudinary',
     'crispy_forms',
     'crispy_bootstrap5',
     'allauth',
     'allauth.account',
-]
-
-TENANT_APPS = [
+    'admin_interface',
+    'colorfield',
+    'whitenoise.runserver_nostatic',
+    'django_filters',
     # Django
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,21 +88,30 @@ TENANT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Thirty
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'allauth',
-    'allauth.account',
+    'django.contrib.humanize',
     # Local
     'users.apps.UsersConfig',
     'store.apps.StoreConfig',
+    'marketing.apps.MarketingConfig',
 ]
 
 INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS]
 
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME', default='danzjuq3j'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY', default='396452838242911'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET', default='llk-KC-UcrOtkxTi7u_qGBZjc6Q'),
+    secure=True,
+)
+
 MIDDLEWARE = [
+    # Add the corsheaders middleware:
+    'corsheaders.middleware.CorsMiddleware',
+    # Add the django_tenants middleware:
     'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    # Add the whitenoise middleware:
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,6 +137,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'store.context_processor.store_context',
+                'marketing.context_processor.marketing_context',
             ],
         },
     },
@@ -141,9 +185,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -159,6 +203,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -202,3 +247,6 @@ DEFAULT_FROM_EMAIL = 'admin@store.com'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]

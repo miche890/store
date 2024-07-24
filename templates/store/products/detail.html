@@ -1,0 +1,70 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+    {{ request.tenant|upper }} | {{ product.name }}
+{% endblock %}
+
+{% block content %}
+    <article class="container bg-white border border-1 p-lg-5 p-md-5 py-5">
+        <section class="row h-100">
+            <section class="col justify-content-center">
+                <picture class="h-100 d-flex justify-content-center align-items-center">
+                    <img src="{{ product.image.url }}" alt="imagen de {{ product.name }}"
+                         style="max-height: 350px; width: auto"/>
+                </picture>
+            </section>
+            <section class="col">
+                <article class="card border-0">
+                    <section class="card-body">
+                        <p class="card-title h2">{{ product.name }}</p>
+                        <p>
+                            <span class="badge text-bg-light">
+                                <i class="fa-solid fa-warehouse"></i>
+                                {{ product.proveedor }}
+                            </span>
+                        </p>
+                        {% load humanize %}
+                        <p class="card-text h4 text-danger fw-bold">$ {{ product.price|intcomma }}</p>
+                        <div>
+                            <form action="" method="post" class="d-flex flex-wrap">
+                                {% csrf_token %}
+                                <section class="input-group w-30 me-1 mt-1">
+                                    <button class="btn btn-sm btn-warning" type="button" title="minus" id="minus">
+                                        <i class='bx bx-minus'></i>
+                                    </button>
+                                    <input class="form-control form-control-sm text-center" type="text" required
+                                           name="cantidad"
+                                           id="cantidad" value="1" aria-label="cantidad" readonly>
+                                    <button class="btn btn-sm btn-warning" type="button" title="plus" id="plus">
+                                        <i class='bx bx-plus'></i>
+                                    </button>
+                                </section>
+                                <button class="btn btn-sm btn-warning me-1 mt-1" type="submit">Agregar al carrito
+                                </button>
+                                <a href="#" class="btn btn-warning me-1 mt-1">
+                                    Comprar
+                                </a>
+                            </form>
+                        </div>
+                    </section>
+                    <section class="card-footer bg-white">
+                        <p class="card-text p">{{ product.description|linebreaksbr }}</p>
+                        <p>
+                        <span class="badge text-bg-success">
+                            <i class='bx bxs-purchase-tag'></i>
+                            {{ product.category }}
+                        </span>
+                        </p>
+                    </section>
+                </article>
+            </section>
+        </section>
+    </article>
+    {% include 'ui/boton_whatsapp.html' %}
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/producto.js' %}"></script>
+{% endblock %}
