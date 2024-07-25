@@ -49,9 +49,14 @@
                             <div class="d-flex justify-content-around align-items-center flex-wrap mt-1">
                                 {#<small class="text-body-secondary w-100 text-end text-uppercase">{{ producto.category }}</small>#}
                                 <div class="btn-group-vertical">
-                                    <a href="" class="btn btn-sm btn-info">
-                                        Añadir al Carrito
-                                    </a>
+                                     <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                         {% csrf_token %}
+                                         <input type="hidden" name="quantity" value="1" id="id_quantity" hidden>
+                                         <input type="hidden" name="override" value="False" id="id_override">
+                                         <button type="submit" class="btn btn-sm btn-info">
+                                             Añadir al carrito
+                                         </button>
+                                     </form>
                                     <a href="{{ product.get_absolute_url }}"
                                        class="btn btn-sm btn-outline-secondary">
                                         Ver mas

@@ -16,10 +16,10 @@
                 </div>
             {% else %}
                 <div class="d-flex align-items-center">
-                    <a href="#" class="btn btn-light mx-1 d-flex align-items-center">
+                    <a href="{% url 'cart:cart_detail' %}" class="btn btn-light mx-1 d-flex align-items-center">
                         <i class='bx bxs-cart h3 m-0 ms-1'></i>
                         <p class="small m-0 fw-bold ms-1">Carrito</p>
-                        <span class="badge text-bg-danger ms-1">{{ total_products_cart }}</span>
+                        <span class="badge text-bg-danger ms-1">{{ cart|length }}</span>
                     </a>
                     <div class="dropdown">
                         <button class="btn btn-light mx-1 dropdown-toggle" type="button"

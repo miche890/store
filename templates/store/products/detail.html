@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <article class="container bg-white border border-1 p-lg-5 p-md-5 py-5">
+    <article class="container bg-white border border-1 p-lg-5 p-md-5 py-5 mb-3">
         <section class="row h-100">
             <section class="col justify-content-center">
                 <picture class="h-100 d-flex justify-content-center align-items-center">
@@ -28,15 +28,16 @@
                         {% load humanize %}
                         <p class="card-text h4 text-danger fw-bold">$ {{ product.price|intcomma }}</p>
                         <div>
-                            <form action="" method="post" class="d-flex flex-wrap">
+                            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex flex-wrap">
                                 {% csrf_token %}
                                 <section class="input-group w-30 me-1 mt-1">
                                     <button class="btn btn-sm btn-warning" type="button" title="minus" id="minus">
                                         <i class='bx bx-minus'></i>
                                     </button>
                                     <input class="form-control form-control-sm text-center" type="text" required
-                                           name="cantidad"
+                                           name="quantity"
                                            id="cantidad" value="1" aria-label="cantidad" readonly>
+                                    <input type="hidden" name="override" value="False" id="id_override">
                                     <button class="btn btn-sm btn-warning" type="button" title="plus" id="plus">
                                         <i class='bx bx-plus'></i>
                                     </button>

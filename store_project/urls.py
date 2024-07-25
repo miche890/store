@@ -25,6 +25,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # Local apps
+    path('cart/', include('cart.urls')),
     path('', include('store.urls')),
-    path('', include('pages.urls'))
+    path('', include('pages.urls')),
 ]

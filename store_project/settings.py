@@ -93,6 +93,7 @@ TENANT_APPS = [
     'users.apps.UsersConfig',
     'store.apps.StoreConfig',
     'marketing.apps.MarketingConfig',
+    'cart.apps.CartConfig',
 ]
 
 INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS]
@@ -139,6 +140,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'store.context_processor.store_context',
                 'marketing.context_processor.marketing_context',
+                'cart.context_processors.cart_context',
             ],
         },
     },
@@ -250,3 +252,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 SILENCED_SYSTEM_CHECKS = ["security.W019"]
+
+CART_SESSION_ID = 'cart'
