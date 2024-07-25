@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en" class="h-100">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Store{% endblock %}</title>
@@ -18,7 +18,7 @@
     {% endblock %}
     {#    <link rel="stylesheet" href="{% static 'css/base.css' %}">#}
 </head>
-<body class="bg-body-tertiary d-flex h-100 overflow-x-hidden">
+<body class="bg-body-tertiary h-100 d-flex overflow-x-hidden">
 <section class="d-flex flex-column h-100 mx-auto w-100">
     <header class="mb-auto">
         {% include 'layouts/navbar.html' %}

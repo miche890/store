@@ -1,0 +1,17 @@
+{% extends '_base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ request.tenant|upper }} | Gracias
+{% endblock %}
+
+{% block content %}
+    <section class="h-100 d-flex flex-column justify-content-center align-items-center">
+        <h1>Gracias</h1>
+        <p>
+            Su orden ha sido completada satisfactoriamente. tu numero de orden es
+            <strong>{{ order.id }}</strong>
+        </p>
+    </section>
+{% endblock %}
