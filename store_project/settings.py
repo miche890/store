@@ -159,11 +159,11 @@ DATABASES = {
     # 'default': env.db(default='sqlite://db.sqlite3')
     'default': {
         'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': env.str('POSTGRES_NAME', default='postgres'),
+        'USER': env.str('POSTGRES_USER', default='postgres'),
+        'PASSWORD': env.str('POSTGRES_PASSWORD', default='postgres'),
+        'HOST': env.str('POSTGRES_HOST', default='localhost'),
+        'PORT': env.str('POSTGRES_PORT', default=5432),
     }
     # 'default': {
     #     'ENGINE': 'django_tenants.postgresql_backend',
