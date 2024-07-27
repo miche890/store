@@ -38,7 +38,9 @@ SECRET_KEY = env.str('SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*.localhost', '*.store-app.fly.dev', 'localhost', 'store-app.fly.dev', 'medgol.store-app.fly.dev']
+CSRF_TRUSTED_ORIGINS = ['https://store-app.fly.dev', 'https://*.store-app.fly.dev', 'https://medgol.store-app.fly.dev']
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -120,9 +122,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 
     # Add the account middleware:
-    'allauth.account.middleware.AccountMiddleware'
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'store_project.urls'
@@ -153,6 +156,7 @@ WSGI_APPLICATION = 'store_project.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': env.db(default='sqlite://db.sqlite3')
     'default': {
         'ENGINE': 'django_tenants.postgresql_backend',
         'NAME': 'postgres',
@@ -161,6 +165,14 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': 5432,
     }
+    # 'default': {
+    #     'ENGINE': 'django_tenants.postgresql_backend',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'localhost',
+    #     'PORT': 5432,
+    # }
 }
 
 DATABASE_ROUTERS = (
@@ -221,6 +233,8 @@ TENANT_DOMAIN_MODEL = 'client.Domain'
 
 PUBLIC_SCHEMA_URLCONF = 'client.urls'
 PUBLIC_SCHEMA_NAME = 'public'
+
+TENANT_COLOR_ADMIN_APPS = False
 
 # django-crispy-forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
