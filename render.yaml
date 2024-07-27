@@ -1,0 +1,22 @@
+databases:
+  - name: store-app-db
+    plan: free
+    databaseName: store_app_db
+    user: store_app
+
+services:
+  - type: web
+    plan: free
+    name: store-app
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn store_project.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: store-app-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4

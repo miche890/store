@@ -38,8 +38,8 @@ SECRET_KEY = env.str('SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*.localhost', '*.store-app.fly.dev', 'localhost', 'store-app.fly.dev', 'medgol.store-app.fly.dev']
-CSRF_TRUSTED_ORIGINS = ['https://store-app.fly.dev', 'https://*.store-app.fly.dev', 'https://medgol.store-app.fly.dev']
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://store-app.fly.dev', 'https://*.store-app.fly.dev', 'localhost']
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
