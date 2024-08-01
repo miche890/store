@@ -38,8 +38,15 @@ SECRET_KEY = env.str('SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://store-app.fly.dev', 'https://*.store-app.fly.dev', 'localhost']
+ALLOWED_HOSTS = ['localhost', '.localhost', 'store-app.fly.dev', '.store-app.fly.dev', 'store-app-43vd.onrender.com', '.store-app-43vd.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://store-app.fly.dev',
+    'https://*.store-app.fly.dev',
+    'http://localhost:8000',
+    'http://*.localhost:8000/',
+    'https://store-app-43vd.onrender.com',
+    'https://*.store-app-43vd.onrender.com'
+]
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
